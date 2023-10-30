@@ -81,7 +81,7 @@ button.calculateButton:hover {
   letter-spacing: 1pt;
 }
 
-button.calculateButton:hover {
+button.clearButton:hover {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
@@ -413,3 +413,7 @@ img {
   visibility: hidden;
 }
 
+.fade {
+  transition: opacity 0.5s;  
+  opacity: 1;
+}

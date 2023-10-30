@@ -31,7 +31,7 @@
           class="calculateButton"
           id="calculateButtonHTML"
           type="submit"
-          onclick="calculate();clickAnnualButton()"
+          onclick="calculate()"
         >
           Calculate
         </button>
@@ -40,9 +40,9 @@
       <p class="takeHomePay">Take Home Pay:</p>
       <p class="takeHomePayValue" id="takeHomePayHTML">_________</p>
       <div>
-        <button class="timeButton" onclick="toggleButton(this)">Weekly</button>
-        <button class="timeButton" onclick="toggleButton(this)">Monthly</button>
-        <button class="timeButton active" onclick="toggleButton(this)">
+        <button class="timeButton" >Weekly</button>
+        <button class="timeButton" >Monthly</button>
+        <button class="timeButton active" >
           Annually
         </button>
       </div>
@@ -72,7 +72,9 @@
         <p id="nationalInsuranceHTML">National Insurance:</p>
         <p id="studentLoanHTML">Student Loan:</p>
         <p id="pensionContributionHTML">Pension:</p>
-        <canvas id="pie-chart"></canvas>
+        <div id="pieChartFade">
+          <canvas id="pie-chart"></canvas>  <!-- Pie chart -->
+        </div>
       </div>
       </div>
     </div>
