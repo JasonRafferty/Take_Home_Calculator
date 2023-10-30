@@ -2,15 +2,17 @@
 let inputSalaryElement = document.getElementById("inputSalaryHTML");
 let nationalInsuranceElement = document.getElementById("nationalInsuranceHTML");
 let incomeTaxElement = document.getElementById("incomeTaxHTML");
+let pensionContributionElement = document.getElementById(
+  "pensionContributionHTML"
+);
 let inputPension = document.getElementById("inputPensionHTML");
 let takeHomePay = document.getElementById("takeHomePayHTML");
-let pensionContribution = document.getElementById("pensionContributionHTML");
 var accordions = document.querySelectorAll("button.accordion");
 
 //Intialise values
 let nationalInsurance = 0;
 let incomeTax = 0;
-let costOfLiving = 0;
+let pensionContribution = 0;
 let annualSalary;
 let weekSalary;
 let monthSalary;
@@ -28,20 +30,29 @@ function clear() {
 const toggleCheckbox = document.querySelector(".toggle-checkbox");
 toggleCheckbox.addEventListener("change", function () {
   if (toggleCheckbox.checked) {
+    // read input
 
+    pensionContribution = Math.round(
+      parseFloat(inputSalaryElement.value) * 0.3
+    );
+    console.log(pensionContribution);
     console.log("On");
+    calculate();
   } else {
+    pensionContribution = 0;
     console.log("Off");
+    calculate();
   }
 });
-
-//else if pennsion is empty
-//let inputSalary = parseFloat(inputSalaryElement.value);
 
 //Calculates the output of given salary
 function calculate() {
   let inputSalary = parseFloat(inputSalaryElement.value);
   if (!isNaN(inputSalary)) {
+    // Pension Contribution
+    pensionContributionElement.textContent =
+      "Pension Contribution: £" + pensionContribution;
+    inputSalary -= pensionContribution;
     // National insurance
     nationalInsuranceCalculate(inputSalary);
     inputSalary -= nationalInsurance;
@@ -63,10 +74,7 @@ function calculate() {
     takeHomePay.textContent = formattedSalary;
     //Error Handling for invalid input
   } else {
-    takeHomePay.textContent = "Invalid Input";
-    setTimeout(function () {
-      takeHomePay.textContent = "_________";
-    }, 1300);
+    takeHomePay.textContent = "_________";
   }
 }
 
@@ -212,6 +220,36 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+//Student Loans toggle between plan 1 and 2
+document.addEventListener("DOMContentLoaded", function () {
+  // Get all student loan buttons
+  const studentLoanButtons = document.querySelectorAll(".studentLoanButton");
+  // Add click event to each button
+  studentLoanButtons.forEach(function (button) {
+    button.addEventListener("click", function (e) {
+      // Check if the clicked button is already active
+      const wasActive = e.currentTarget.classList.contains("active");
+
+      // Remove active class from all buttons
+      studentLoanButtons.forEach((btn) => btn.classList.remove("active"));
+
+      // If the button wasn't active, make it active
+      if (!wasActive) {
+        e.currentTarget.classList.add("active");
+      }
+
+      switch (e.currentTarget.textContent.trim()) {
+        case "Plan 1":
+          // Logic for Plan 1
+          break;
+        case "Plan 2":
+          // Logic for Plan 2
+          break;
+      }
+    });
+  });
+});
+
 //When a new calculation, resets to anual
 function resetAnnually() {
   // Remove active class from all buttons
@@ -239,7 +277,6 @@ for (var i = 0; i < accordions.length; i++) {
     chartWrapper.classList.toggle("fade");
   };
 }
-
 
 //Piechart
 new Chart(document.getElementById("pie-chart"), {
@@ -277,6 +314,8 @@ new Chart(document.getElementById("pie-chart"), {
 //17. allow pension contribution to put a decimal in
 //18. when monthly or weekly is toggled with no input, it shows NaN
 //19. When clear is pressed, clear montly and weekly too
+//20. add error handling where income tax + nation insurea + take home pay etc = intital salary, if not it displayers erro
+//21. Let pension contribution and student loan be divided monthly and weekly
 // upload on linkedin (show video demonstartion)
 
-//check if conversion works for week month year!!!!!!!
+

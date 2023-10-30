@@ -26,7 +26,7 @@ h1 {
   border: 3px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(20px);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  padding: 2vh 2vh;
+  padding: 2vh 1vh;
   border-radius: 18px;
 }
 
@@ -110,6 +110,7 @@ button.active {
   margin-right: 5pt;
 }
 .studentLoanButton {
+  position: relative;
   background-color: transparent;
   border: 2px solid rgba(255, 255, 255, 0.5);
   width: 25%;
@@ -124,6 +125,28 @@ button.active {
 
 button.studentLoanButton:hover {
   background-color: rgba(255, 255, 255, 0.3);
+}
+
+.studentLoanButton .tooltip {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  bottom: 130%; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  padding: 8px;
+  border-radius: 10px;
+  background-color: #333333d8;
+  color: white;
+  white-space: nowrap; 
+  font-size: 14px;
+  z-index: 1;
+  transition: opacity 0.4s ease, visibility 0.4s ease-in-out; 
+}
+
+.studentLoanButton:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
 }
 
 .inputPensionTitle {
@@ -382,7 +405,8 @@ img {
   left: 26pt;
   margin: -23pt;
 }
-.toggle-switch:before, .toggle-switch:after {
+.toggle-switch:before,
+.toggle-switch:after {
   content: "";
 }
 .toggle-switch:before {
@@ -414,6 +438,12 @@ img {
 }
 
 .fade {
-  transition: opacity 0.5s;  
+  transition: opacity 0.5s;
   opacity: 1;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

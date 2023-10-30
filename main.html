@@ -48,8 +48,14 @@
       </div>
       <div>
         <p class="studentLoanTitle">Student Loan Payment&nbsp; |</p>
-        <button class="studentLoanButton">Plan 1</button>
-        <button class="studentLoanButton">Plan 2</button>
+        <button class="studentLoanButton">
+          Plan 1
+          <span class="tooltip">9% over the threshold of £22,015</span>
+        </button>
+        <button class="studentLoanButton">
+          Plan 2
+          <span class="tooltip">9% over the threshold of £27,295</span>
+        </button>
       </div>
       <div>
         <p class="inputPensionTitle">Pension Contribution % |</p>
@@ -58,7 +64,7 @@
           class="inputPension"
           type="text"
           placeholder="Enter Pension %"
-          maxlength="2"
+          maxlength="5"
         />
         <label class="toggle">
           <input class="toggle-checkbox" type="checkbox">
@@ -71,9 +77,9 @@
         <p id="incomeTaxHTML">Income Tax:</p>
         <p id="nationalInsuranceHTML">National Insurance:</p>
         <p id="studentLoanHTML">Student Loan:</p>
-        <p id="pensionContributionHTML">Pension:</p>
+        <p id="pensionContributionHTML">Pension Contribution:</p>
         <div id="pieChartFade">
-          <canvas id="pie-chart"></canvas>  <!-- Pie chart -->
+          <canvas id="pie-chart"></canvas> 
         </div>
       </div>
       </div>
