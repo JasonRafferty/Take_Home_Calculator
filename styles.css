@@ -19,6 +19,7 @@ body {
 
 h1 {
   text-align: center;
+  font-size: 26pt;
 }
 
 .container {
@@ -28,6 +29,7 @@ h1 {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   padding: 2vh 1vh;
   border-radius: 18px;
+  
 }
 
 .inputSalary {
@@ -131,17 +133,17 @@ button.studentLoanButton:hover {
   opacity: 0;
   visibility: hidden;
   position: absolute;
-  bottom: 130%; 
-  left: 50%; 
-  transform: translateX(-50%); 
+  bottom: 80%;
+  left: 50%;
+  transform: translateX(-50%);
   padding: 8px;
   border-radius: 10px;
   background-color: #333333d8;
   color: white;
-  white-space: nowrap; 
+  white-space: nowrap;
   font-size: 14px;
   z-index: 1;
-  transition: opacity 0.4s ease, visibility 0.4s ease-in-out; 
+  transition: opacity 0.4s ease, visibility 0.4s ease-in-out;
 }
 
 .studentLoanButton:hover .tooltip {
@@ -160,7 +162,6 @@ button.studentLoanButton:hover {
   width: 35%;
   border-radius: 10px;
   padding: 3px;
-  cursor: pointer;
   color: white;
   font-size: 11pt;
   transition: 0.3s;

@@ -26,30 +26,74 @@ function clear() {
   incomeTaxElement.textContent = "Income Tax:";
 }
 
-// Pension Contribution
+//Check input salary is positive and a value
+function checkSalaryInput(input) {
+  let value = parseFloat(input.value);
+  if (isNaN(value)) {
+    input.value = "";
+  } else {
+    if (value < 0) input.value = 0;
+  }
+}
+
+//Check input pension % is inbetween 0 and 100
+function checkPensionInput(input) {
+  let value = parseFloat(input.value);
+  if (isNaN(value)) {
+    input.value = "";
+  } else {
+    if (value < 0) input.value = 0;
+    if (value > 100) input.value = 100;
+  }
+}
+
+// Pension Contribution toggle
 const toggleCheckbox = document.querySelector(".toggle-checkbox");
+const inputPensionHTML = document.querySelector("#inputPensionHTML");
+
 toggleCheckbox.addEventListener("change", function () {
+  let inputPensionValue = parseFloat(inputPensionHTML.value) / 100;
   if (toggleCheckbox.checked) {
     // read input
 
     pensionContribution = Math.round(
-      parseFloat(inputSalaryElement.value) * 0.3
+      parseFloat(inputSalaryElement.value) * inputPensionValue
     );
-    console.log(pensionContribution);
+    console.log(inputPensionValue);
     console.log("On");
-    calculate();
   } else {
     pensionContribution = 0;
     console.log("Off");
-    calculate();
   }
+  calculate();
+});
+
+//When pension input changes, it will update
+inputPensionHTML.addEventListener("input", function () {
+  checkPensionInput(inputPensionHTML);
+  if (toggleCheckbox.checked) {
+    pensionContribution = Math.round(
+      parseFloat(inputSalaryElement.value) *
+        (parseFloat(inputPensionHTML.value) / 100)
+    );
+  } else {
+    pensionContribution = 0;
+  }
+  calculate();
 });
 
 //Calculates the output of given salary
 function calculate() {
   let inputSalary = parseFloat(inputSalaryElement.value);
   if (!isNaN(inputSalary)) {
-    // Pension Contribution
+    if (toggleCheckbox.checked) {
+      // Pension Contribution
+      let inputPensionValue = parseFloat(inputPensionHTML.value) / 100;
+      //Given Salary is multiplied by percentage chosen
+      pensionContribution = Math.round(inputSalary * inputPensionValue);
+    } else {
+      pensionContribution = 0;
+    }
     pensionContributionElement.textContent =
       "Pension Contribution: £" + pensionContribution;
     inputSalary -= pensionContribution;
@@ -131,6 +175,8 @@ function incomeTaxCalculate(inputSalary) {
 }
 
 //Calculates Student Plan 1
+
+//Calculates Student Plan 2
 
 //Converts all values into weeks
 function convertWeek() {
@@ -310,12 +356,9 @@ new Chart(document.getElementById("pie-chart"), {
 });
 
 //ToDo
-//15. when you hover on plan 1 and plan 2, it gives details
 //17. allow pension contribution to put a decimal in
 //18. when monthly or weekly is toggled with no input, it shows NaN
 //19. When clear is pressed, clear montly and weekly too
 //20. add error handling where income tax + nation insurea + take home pay etc = intital salary, if not it displayers erro
 //21. Let pension contribution and student loan be divided monthly and weekly
 // upload on linkedin (show video demonstartion)
-
-

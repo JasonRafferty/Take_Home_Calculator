@@ -25,6 +25,8 @@
         type="text"
         placeholder="Enter Salary Here"
         maxlength="8"
+        autocomplete="off"
+        oninput="checkSalaryInput(this)"
       />
       <div>
         <button
@@ -50,11 +52,11 @@
         <p class="studentLoanTitle">Student Loan Payment&nbsp; |</p>
         <button class="studentLoanButton">
           Plan 1
-          <span class="tooltip">9% over the threshold of £22,015</span>
+          <span class="tooltip">Plan 1: 9% over the threshold of £22,015</span>
         </button>
         <button class="studentLoanButton">
           Plan 2
-          <span class="tooltip">9% over the threshold of £27,295</span>
+          <span class="tooltip">Plan 2: 9% over the threshold of £27,295</span>
         </button>
       </div>
       <div>
@@ -64,7 +66,8 @@
           class="inputPension"
           type="text"
           placeholder="Enter Pension %"
-          maxlength="5"
+          maxlength="6"
+          oninput="checkPensionInput(this)"
         />
         <label class="toggle">
           <input class="toggle-checkbox" type="checkbox">
