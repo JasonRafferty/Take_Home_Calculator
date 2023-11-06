@@ -2,6 +2,7 @@
 let inputSalaryElement = document.getElementById("inputSalaryHTML");
 let nationalInsuranceElement = document.getElementById("nationalInsuranceHTML");
 let incomeTaxElement = document.getElementById("incomeTaxHTML");
+let studentLoanElement = document.getElementById("studentLoanHTML");
 let pensionContributionElement = document.getElementById(
   "pensionContributionHTML"
 );
@@ -13,6 +14,7 @@ var accordions = document.querySelectorAll("button.accordion");
 let nationalInsurance = 0;
 let incomeTax = 0;
 let pensionContribution = 0;
+let studentLoan = 0;
 let annualSalary;
 let weekSalary;
 let monthSalary;
@@ -20,10 +22,19 @@ let monthSalary;
 //Clear what has been put
 document.getElementById("clearButtonHTML").addEventListener("click", clear);
 function clear() {
+  //input salary
   inputSalaryElement.value = "";
-  takeHomePay.textContent = "_________";
+  //national insurance
   nationalInsuranceElement.textContent = "National Insurance:";
+  //Income Tax
   incomeTaxElement.textContent = "Income Tax:";
+  //take home pay
+  takeHomePay.textContent = "_________";
+  //student loan payment (untoggle buttons as well)
+  studentLoanElement.textContent = "StudentLoan:";
+  //pension contribution
+  inputPension.value = "";
+  pensionContributionElement.textContent = "Pension Contribution:";
 }
 
 //Check input salary is positive and a value
@@ -174,9 +185,17 @@ function incomeTaxCalculate(inputSalary) {
   }
 }
 
-//Calculates Student Plan 1
+// Function definition for calculating Student Plan 1
+function studentPlanOneCalculate() {
+  console.log("Plan 1 is now active");
+}
 
-//Calculates Student Plan 2
+// Function definition for calculating Student Plan 2
+function studentPlanTwoCalculate() {
+  console.log("Plan 2 is now active");
+}
+
+//CREATE A TOGGLE FOR STUDENT LOANS!!!!
 
 //Converts all values into weeks
 function convertWeek() {
@@ -266,36 +285,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-//Student Loans toggle between plan 1 and 2
-document.addEventListener("DOMContentLoaded", function () {
-  // Get all student loan buttons
-  const studentLoanButtons = document.querySelectorAll(".studentLoanButton");
-  // Add click event to each button
-  studentLoanButtons.forEach(function (button) {
-    button.addEventListener("click", function (e) {
-      // Check if the clicked button is already active
-      const wasActive = e.currentTarget.classList.contains("active");
-
-      // Remove active class from all buttons
-      studentLoanButtons.forEach((btn) => btn.classList.remove("active"));
-
-      // If the button wasn't active, make it active
-      if (!wasActive) {
-        e.currentTarget.classList.add("active");
-      }
-
-      switch (e.currentTarget.textContent.trim()) {
-        case "Plan 1":
-          // Logic for Plan 1
-          break;
-        case "Plan 2":
-          // Logic for Plan 2
-          break;
-      }
-    });
-  });
-});
-
 //When a new calculation, resets to anual
 function resetAnnually() {
   // Remove active class from all buttons
@@ -333,11 +322,18 @@ new Chart(document.getElementById("pie-chart"), {
       "National Insurance",
       "Take Home Pay",
       "Cost of Living",
+      "Student Loan",
     ],
     datasets: [
       {
-        backgroundColor: ["#B1B2FF", "#AAC4FF", "#D2DAFF", "#EEF1FF"],
-        data: [50, 50, 50, 50],
+        backgroundColor: [
+          "#B1B2FF",
+          "#AAC4FF",
+          "#D2DAFF",
+          "#EEF1FF",
+          "#E3D3F0",
+        ],
+        data: [50, 50, 50, 50, 50],
       },
     ],
   },
@@ -356,9 +352,12 @@ new Chart(document.getElementById("pie-chart"), {
 });
 
 //ToDo
-//17. allow pension contribution to put a decimal in
+//16. pressing clear rests pension contribution
+//17. student loan, if nothing is toggle, it will be 0
 //18. when monthly or weekly is toggled with no input, it shows NaN
 //19. When clear is pressed, clear montly and weekly too
 //20. add error handling where income tax + nation insurea + take home pay etc = intital salary, if not it displayers erro
 //21. Let pension contribution and student loan be divided monthly and weekly
+//22. pension contribution doesn't work for weekly and monthly
+//23. add mobile phone supprot
 // upload on linkedin (show video demonstartion)
