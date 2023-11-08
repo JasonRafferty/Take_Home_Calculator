@@ -196,6 +196,57 @@ function studentPlanTwoCalculate() {
 }
 
 //CREATE A TOGGLE FOR STUDENT LOANS!!!!
+// Get the buttons by their class
+const buttons = document.querySelectorAll('.studentLoanButton');
+
+// Function to toggle buttons and call the appropriate calculation function
+function toggleButton(event) {
+  // Determine which button was clicked
+  const clickedButton = event.currentTarget; // Use currentTarget to get the button element
+  
+  // Check if the clicked button is already active
+  const isActive = clickedButton.classList.contains('active');
+
+  // Remove 'active' class from all buttons
+  buttons.forEach(button => {
+    button.classList.remove('active');
+  });
+
+  // If the clicked button was not already active, make it active and call the respective function
+  if (!isActive) {
+    clickedButton.classList.add('active');
+    if (clickedButton.classList.contains('plan1')) {
+      studentPlanOneCalculate();
+    } else if (clickedButton.classList.contains('plan2')) {
+      studentPlanTwoCalculate();
+    }
+  } else {
+    // If the button was active, we've now untoggled it, so no function should be called
+  }
+}
+
+// Add event listeners to each button
+buttons.forEach(button => {
+  button.addEventListener('click', toggleButton);
+});
+
+// Function definition for calculating Student Plan 1
+function studentPlanOneCalculate() {
+  console.log("Plan 1 is now active");
+}
+
+// Function definition for calculating Student Plan 2
+function studentPlanTwoCalculate() {
+  console.log("Plan 2 is now active");
+}
+
+
+// Add event listeners to each button
+buttons.forEach(button => {
+  button.addEventListener('click', toggleButton);
+});
+
+
 
 //Converts all values into weeks
 function convertWeek() {
@@ -352,7 +403,6 @@ new Chart(document.getElementById("pie-chart"), {
 });
 
 //ToDo
-//16. pressing clear rests pension contribution
 //17. student loan, if nothing is toggle, it will be 0
 //18. when monthly or weekly is toggled with no input, it shows NaN
 //19. When clear is pressed, clear montly and weekly too
@@ -360,4 +410,5 @@ new Chart(document.getElementById("pie-chart"), {
 //21. Let pension contribution and student loan be divided monthly and weekly
 //22. pension contribution doesn't work for weekly and monthly
 //23. add mobile phone supprot
-// upload on linkedin (show video demonstartion)
+
+

@@ -405,6 +405,11 @@ img {
   left: 26pt;
   margin: -23pt;
 }
+
+.toggle-switch:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
 .toggle-switch:before,
 .toggle-switch:after {
   content: "";
@@ -431,6 +436,8 @@ img {
 .toggle-checkbox:checked + .toggle-switch:before {
   left: 30px;
 }
+
+
 
 .toggle-checkbox {
   position: absolute;
