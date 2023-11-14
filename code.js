@@ -120,9 +120,13 @@ function calculate() {
     weekSalary = inputSalary;
     annualSalary = inputSalary;
     //Student Loan
+    studentLoan = 0;
     studentLoanInput = inputSalary;
-    studentLoanOneCalculate();
-    studentLoanTwoCalculate();
+    if (activePlan === "plan1" && studentLoanInput > 22015) {
+      studentLoanOneCalculate();
+    } else if (activePlan === "plan2" && studentLoanInput > 27295) {
+      studentLoanTwoCalculate();
+    }
     inputSalary -= studentLoan;
     //Reset Annual button
     resetAnnually();
@@ -131,6 +135,7 @@ function calculate() {
       style: "currency",
       currency: "GBP",
       minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     });
     takeHomePay.textContent = formattedSalary;
     //Error Handling for invalid input
@@ -192,68 +197,50 @@ function incomeTaxCalculate(inputSalary) {
 }
 
 // Function definition for calculating Student Plan 1
-function studentLoanOneCalculate(isPlan1Active) {
-  if (isPlan1Active && studentLoanInput > 22015) {
-    studentLoan = (studentLoanInput - 22015) * 0.09;
-    studentLoan = studentLoan.toFixed(0);
-    studentLoanElement.textContent = "Student Loan: £" + studentLoan;
+function studentLoanOneCalculate() {
+  if (activePlan === "plan1" && studentLoanInput > 22015) {
+    studentLoan = Math.round((studentLoanInput - 22015) * 0.09);
+    studentLoanElement.textContent = "Student Loan: £" + studentLoan.toFixed(0);
   } else {
-    studentLoan = 0;
     studentLoanElement.textContent = "Student Loan: £0";
   }
-  console.log("Plan 1 is now active");
 }
 
 // Function definition for calculating Student Plan 2
-function studentLoanTwoCalculate(isPlan2Active) {
-  if (isPlan2Active && studentLoanInput > 27295) {
-    studentLoan = (studentLoanInput - 22015) * 0.09;
-    studentLoan = studentLoan.toFixed(0);
-    studentLoanElement.textContent = "Student Loan: £" + studentLoan;
+function studentLoanTwoCalculate() {
+  if (activePlan === "plan2" && studentLoanInput > 27295) {
+    studentLoan = Math.round((studentLoanInput - 27295) * 0.09);
+    studentLoanElement.textContent = "Student Loan: £" + studentLoan.toFixed(0);
   } else {
-    studentLoan = 0;
     studentLoanElement.textContent = "Student Loan: £0";
   }
-  console.log("Plan 2 is now active");
 }
 
 //Toggle for student loan payment
-const buttons = document.querySelectorAll(".studentLoanButton");
-// Function to toggle buttons and call the appropriate calculation function
-function toggleButton(event) {
-  // Determine which button was clicked
-  const clickedButton = event.currentTarget; // Use currentTarget to get the button element
-  // Check if the clicked button is already active
-  const isActive = clickedButton.classList.contains("active");
-  // Remove 'active' class from all buttons
-  buttons.forEach((button) => {
-    button.classList.remove("active");
-  });
-  // If the clicked button was not already active, make it active and call the respective function
-  if (!isActive) {
-    clickedButton.classList.add("active");
-    if (clickedButton.classList.contains("plan1")) {
-      studentLoanOneCalculate(true);
-      studentLoanTwoCalculate(false);
-    } else if (clickedButton.classList.contains("plan2")) {
-      studentLoanTwoCalculate(true);
-      studentLoanOneCalculate(false);
-    }
+const plan1Button = document.querySelector(".plan1"); // Use the correct selector for Plan 1 button
+const plan2Button = document.querySelector(".plan2"); // Use the correct selector for Plan 2 button
+let activePlan = null;
+
+// Function to toggle student loan plans
+function togglePlan(plan) {
+  if (activePlan === plan) {
+    // Untoggle if the same plan is clicked again
+    activePlan = null;
   } else {
-    studentLoanOneCalculate(false);
-    studentLoanTwoCalculate(true);
-    // If the button was active, we've now untoggled it, so no function should be called
+    // Set active plan
+    activePlan = plan;
   }
+  // Update button visuals
+  plan1Button.classList.toggle("active", activePlan === "plan1");
+  plan2Button.classList.toggle("active", activePlan === "plan2");
+
+  // Recalculate based on the new plan state
   calculate();
 }
-// Add event listeners to each button
-buttons.forEach((button) => {
-  button.addEventListener("click", toggleButton);
-});
-// Add event listeners to each button
-buttons.forEach((button) => {
-  button.addEventListener("click", toggleButton);
-});
+
+// Attach event listeners to the plan buttons
+plan1Button.addEventListener("click", () => togglePlan("plan1"));
+plan2Button.addEventListener("click", () => togglePlan("plan2"));
 
 //Converts all values into weeks
 function convertWeek() {
@@ -410,7 +397,8 @@ new Chart(document.getElementById("pie-chart"), {
 });
 
 //ToDo
-//17. student loan, if nothing is toggle, it will be 0
+//16. When untoggling plan 1 and plan 2, it doesn't change more info
+//17. student loan, if nothing is toggle, it will be 0 !!
 //18. when monthly or weekly is toggled with no input, it shows NaN
 //19. When clear is pressed, clear montly and weekly too
 //20. add error handling where income tax + nation insurea + take home pay etc = intital salary, if not it displayers erro
