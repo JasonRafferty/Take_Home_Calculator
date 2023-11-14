@@ -18,6 +18,7 @@ let studentLoan = 0;
 let annualSalary;
 let weekSalary;
 let monthSalary;
+let studentLoanInput;
 
 //Clear what has been put
 document.getElementById("clearButtonHTML").addEventListener("click", clear);
@@ -31,7 +32,7 @@ function clear() {
   //take home pay
   takeHomePay.textContent = "_________";
   //student loan payment (untoggle buttons as well)
-  studentLoanElement.textContent = "StudentLoan:";
+  studentLoanElement.textContent = "Student Loan:";
   //pension contribution
   inputPension.value = "";
   pensionContributionElement.textContent = "Pension Contribution:";
@@ -118,6 +119,11 @@ function calculate() {
     monthSalary = inputSalary;
     weekSalary = inputSalary;
     annualSalary = inputSalary;
+    //Student Loan
+    studentLoanInput = inputSalary;
+    studentLoanOneCalculate();
+    studentLoanTwoCalculate();
+    inputSalary -= studentLoan;
     //Reset Annual button
     resetAnnually();
     // Final Display
@@ -186,67 +192,68 @@ function incomeTaxCalculate(inputSalary) {
 }
 
 // Function definition for calculating Student Plan 1
-function studentPlanOneCalculate() {
+function studentLoanOneCalculate(isPlan1Active) {
+  if (isPlan1Active && studentLoanInput > 22015) {
+    studentLoan = (studentLoanInput - 22015) * 0.09;
+    studentLoan = studentLoan.toFixed(0);
+    studentLoanElement.textContent = "Student Loan: £" + studentLoan;
+  } else {
+    studentLoan = 0;
+    studentLoanElement.textContent = "Student Loan: £0";
+  }
   console.log("Plan 1 is now active");
 }
 
 // Function definition for calculating Student Plan 2
-function studentPlanTwoCalculate() {
+function studentLoanTwoCalculate(isPlan2Active) {
+  if (isPlan2Active && studentLoanInput > 27295) {
+    studentLoan = (studentLoanInput - 22015) * 0.09;
+    studentLoan = studentLoan.toFixed(0);
+    studentLoanElement.textContent = "Student Loan: £" + studentLoan;
+  } else {
+    studentLoan = 0;
+    studentLoanElement.textContent = "Student Loan: £0";
+  }
   console.log("Plan 2 is now active");
 }
 
-//CREATE A TOGGLE FOR STUDENT LOANS!!!!
-// Get the buttons by their class
-const buttons = document.querySelectorAll('.studentLoanButton');
-
+//Toggle for student loan payment
+const buttons = document.querySelectorAll(".studentLoanButton");
 // Function to toggle buttons and call the appropriate calculation function
 function toggleButton(event) {
   // Determine which button was clicked
   const clickedButton = event.currentTarget; // Use currentTarget to get the button element
-  
   // Check if the clicked button is already active
-  const isActive = clickedButton.classList.contains('active');
-
+  const isActive = clickedButton.classList.contains("active");
   // Remove 'active' class from all buttons
-  buttons.forEach(button => {
-    button.classList.remove('active');
+  buttons.forEach((button) => {
+    button.classList.remove("active");
   });
-
   // If the clicked button was not already active, make it active and call the respective function
   if (!isActive) {
-    clickedButton.classList.add('active');
-    if (clickedButton.classList.contains('plan1')) {
-      studentPlanOneCalculate();
-    } else if (clickedButton.classList.contains('plan2')) {
-      studentPlanTwoCalculate();
+    clickedButton.classList.add("active");
+    if (clickedButton.classList.contains("plan1")) {
+      studentLoanOneCalculate(true);
+      studentLoanTwoCalculate(false);
+    } else if (clickedButton.classList.contains("plan2")) {
+      studentLoanTwoCalculate(true);
+      studentLoanOneCalculate(false);
     }
   } else {
+    studentLoanOneCalculate(false);
+    studentLoanTwoCalculate(true);
     // If the button was active, we've now untoggled it, so no function should be called
   }
+  calculate();
 }
-
 // Add event listeners to each button
-buttons.forEach(button => {
-  button.addEventListener('click', toggleButton);
+buttons.forEach((button) => {
+  button.addEventListener("click", toggleButton);
 });
-
-// Function definition for calculating Student Plan 1
-function studentPlanOneCalculate() {
-  console.log("Plan 1 is now active");
-}
-
-// Function definition for calculating Student Plan 2
-function studentPlanTwoCalculate() {
-  console.log("Plan 2 is now active");
-}
-
-
 // Add event listeners to each button
-buttons.forEach(button => {
-  button.addEventListener('click', toggleButton);
+buttons.forEach((button) => {
+  button.addEventListener("click", toggleButton);
 });
-
-
 
 //Converts all values into weeks
 function convertWeek() {
@@ -410,5 +417,3 @@ new Chart(document.getElementById("pie-chart"), {
 //21. Let pension contribution and student loan be divided monthly and weekly
 //22. pension contribution doesn't work for weekly and monthly
 //23. add mobile phone supprot
-
-
