@@ -8,7 +8,7 @@ let pensionContributionElement = document.getElementById(
 );
 let inputPension = document.getElementById("inputPensionHTML");
 let takeHomePay = document.getElementById("takeHomePayHTML");
-var accordions = document.querySelectorAll("button.accordion");
+let accordions = document.querySelectorAll("button.accordion");
 
 //Intialise values
 let nationalInsurance = 0;
@@ -126,6 +126,8 @@ function calculate() {
       studentLoanOneCalculate();
     } else if (activePlan === "plan2" && studentLoanInput > 27295) {
       studentLoanTwoCalculate();
+    } else {
+      studentLoanElement.textContent = "Student Loan: £0";
     }
     inputSalary -= studentLoan;
     //Reset Annual button
@@ -216,7 +218,7 @@ function studentLoanTwoCalculate() {
   }
 }
 
-//Toggle for student loan payment
+
 const plan1Button = document.querySelector(".plan1"); // Use the correct selector for Plan 1 button
 const plan2Button = document.querySelector(".plan2"); // Use the correct selector for Plan 2 button
 let activePlan = null;
@@ -262,6 +264,9 @@ function convertWeek() {
   incomeTaxValue = incomeTax / 52;
   incomeTaxValue = incomeTaxValue.toFixed(0);
   incomeTaxElement.textContent = "Income Tax: £" + incomeTaxValue + " Weekly";
+  //Convert Pension Contribution
+
+  //Convert Student Loan
 }
 
 //Converts all values into months
@@ -284,6 +289,8 @@ function convertMonth() {
   incomeTaxValue = incomeTax / 12;
   incomeTaxValue = incomeTaxValue.toFixed(0);
   incomeTaxElement.textContent = "Income Tax: £" + incomeTaxValue + " Monthly";
+  //Convert Pension Contribution
+  //Convert Student Loan
 }
 
 function convertAnnually() {
@@ -298,6 +305,9 @@ function convertAnnually() {
     "National Insurance: £" + nationalInsurance + " Annually";
   //Convert Income Tax
   incomeTaxElement.textContent = "Income Tax: £" + incomeTax + " Annually";
+  //Convert Pension Contribution
+
+  //Convert Student Loan
 }
 
 //Toggles between weekly, monthly, or yearly
@@ -397,7 +407,6 @@ new Chart(document.getElementById("pie-chart"), {
 });
 
 //ToDo
-//16. When untoggling plan 1 and plan 2, it doesn't change more info
 //17. student loan, if nothing is toggle, it will be 0 !!
 //18. when monthly or weekly is toggled with no input, it shows NaN
 //19. When clear is pressed, clear montly and weekly too
