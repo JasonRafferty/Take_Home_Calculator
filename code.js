@@ -19,6 +19,7 @@ let annualSalary;
 let weekSalary;
 let monthSalary;
 let studentLoanInput;
+let takeHomePayValue = 0;
 
 //Clear what has been put
 document.getElementById("clearButtonHTML").addEventListener("click", clear);
@@ -37,11 +38,12 @@ function clear() {
   inputPension.value = "";
   pensionContributionElement.textContent = "Pension Contribution:";
   //Reset Values
-  takeHomePay = 0;
   nationalInsurance = 0;
   incomeTax = 0;
   studentLoan = 0;
   pensionContribution = 0;
+  //Reset Chart
+  updateChartData(myPieChart, 100, 100, 100, 100, 100);
 }
 
 //Check input salary is positive and a value
@@ -70,19 +72,27 @@ const toggleCheckbox = document.querySelector(".toggle-checkbox");
 const inputPensionHTML = document.querySelector("#inputPensionHTML");
 
 toggleCheckbox.addEventListener("change", function () {
-  let inputPensionValue = parseFloat(inputPensionHTML.value) / 100;
-  if (toggleCheckbox.checked) {
-    // read input
+  // Check if the pension input value is empty or not a number
+  if (
+    inputPensionHTML.value === "" ||
+    isNaN(parseFloat(inputPensionHTML.value))
+  ) {
+    // If it is, uncheck the toggle and return early without calculating
+    toggleCheckbox.checked = false;
+    alert("Please enter a value");
+    return;
+  }
 
+  let inputPensionValue = parseFloat(inputPensionHTML.value) / 100;
+
+  if (toggleCheckbox.checked) {
     pensionContribution = Math.round(
       parseFloat(inputSalaryElement.value) * inputPensionValue
     );
-    console.log(inputPensionValue);
-    console.log("On");
   } else {
     pensionContribution = 0;
-    console.log("Off");
   }
+
   calculate();
 });
 
@@ -139,6 +149,7 @@ function calculate() {
     //Reset Annual button
     resetAnnually();
     // Final Display
+    takeHomePayValue = inputSalary;
     const formattedSalary = inputSalary.toLocaleString("en-UK", {
       style: "currency",
       currency: "GBP",
@@ -146,10 +157,38 @@ function calculate() {
       maximumFractionDigits: 0,
     });
     takeHomePay.textContent = formattedSalary;
-    //Error Handling for invalid input
+    //Update Piechart
+    updateChartData(
+      myPieChart,
+      incomeTax,
+      nationalInsurance,
+      takeHomePayValue,
+      pensionContribution,
+      studentLoan
+    );
   } else {
     takeHomePay.textContent = "_________";
+    takeHomePayValue = 0;
+    updateChartData(myPieChart, 100, 100, 100, 100, 100);
   }
+}
+
+function updateChartData(
+  chart,
+  incomeTax,
+  nationalInsurance,
+  takeHomePayValue,
+  pensionContribution,
+  studentLoan
+) {
+  chart.data.datasets[0].data = [
+    incomeTax,
+    nationalInsurance,
+    takeHomePayValue,
+    pensionContribution,
+    studentLoan,
+  ];
+  chart.update(); // This will re-render the chart with new data
 }
 
 //Calculetes National Insurance Number
@@ -204,7 +243,7 @@ function incomeTaxCalculate(inputSalary) {
   }
 }
 
-// Function definition for calculating Student Plan 1
+// Function for calculating Student Plan 1
 function studentLoanOneCalculate() {
   if (activePlan === "plan1" && studentLoanInput > 22015) {
     studentLoan = Math.round((studentLoanInput - 22015) * 0.09);
@@ -214,7 +253,7 @@ function studentLoanOneCalculate() {
   }
 }
 
-// Function definition for calculating Student Plan 2
+// Function for calculating Student Plan 2
 function studentLoanTwoCalculate() {
   if (activePlan === "plan2" && studentLoanInput > 27295) {
     studentLoan = Math.round((studentLoanInput - 27295) * 0.09);
@@ -224,8 +263,8 @@ function studentLoanTwoCalculate() {
   }
 }
 
-const plan1Button = document.querySelector(".plan1"); // Use the correct selector for Plan 1 button
-const plan2Button = document.querySelector(".plan2"); // Use the correct selector for Plan 2 button
+const plan1Button = document.querySelector(".plan1");
+const plan2Button = document.querySelector(".plan2");
 let activePlan = null;
 
 // Function to toggle student loan plans
@@ -392,7 +431,7 @@ for (var i = 0; i < accordions.length; i++) {
 }
 
 //Piechart
-new Chart(document.getElementById("pie-chart"), {
+var myPieChart = new Chart(document.getElementById("pie-chart"), {
   type: "pie",
   data: {
     labels: [
@@ -405,13 +444,19 @@ new Chart(document.getElementById("pie-chart"), {
     datasets: [
       {
         backgroundColor: [
-          "#B1B2FF",
+          "#E3D3F0",
           "#AAC4FF",
+          "#B1B2FF",
           "#D2DAFF",
           "#EEF1FF",
-          "#E3D3F0",
         ],
-        data: [incomeTax, nationalInsurance, takeHomePay, pensionContribution, studentLoan],
+        data: [
+          incomeTax,
+          nationalInsurance,
+          takeHomePayValue,
+          pensionContribution,
+          studentLoan,
+        ],
       },
     ],
   },
@@ -431,9 +476,5 @@ new Chart(document.getElementById("pie-chart"), {
 
 //ToDo
 //17. student loan, if nothing is toggle, it will be 0 !!
-//18. when monthly or weekly is toggled with no input, it shows NaN
-//19. When clear is pressed, clear montly and weekly too
 //20. add error handling where income tax + nation insurea + take home pay etc = intital salary, if not it displayers erro
-//21. Let pension contribution and student loan be divided monthly and weekly
-//22. pension contribution doesn't work for weekly and monthly
 //23. add mobile phone supprot
