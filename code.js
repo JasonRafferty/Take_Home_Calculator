@@ -36,6 +36,12 @@ function clear() {
   //pension contribution
   inputPension.value = "";
   pensionContributionElement.textContent = "Pension Contribution:";
+  //Reset Values
+  takeHomePay = 0;
+  nationalInsurance = 0;
+  incomeTax = 0;
+  studentLoan = 0;
+  pensionContribution = 0;
 }
 
 //Check input salary is positive and a value
@@ -218,7 +224,6 @@ function studentLoanTwoCalculate() {
   }
 }
 
-
 const plan1Button = document.querySelector(".plan1"); // Use the correct selector for Plan 1 button
 const plan2Button = document.querySelector(".plan2"); // Use the correct selector for Plan 2 button
 let activePlan = null;
@@ -265,8 +270,15 @@ function convertWeek() {
   incomeTaxValue = incomeTaxValue.toFixed(0);
   incomeTaxElement.textContent = "Income Tax: £" + incomeTaxValue + " Weekly";
   //Convert Pension Contribution
-
+  pensionContributionValue = pensionContribution / 52;
+  pensionContributionValue = pensionContributionValue.toFixed(0);
+  pensionContributionElement.textContent =
+    "Pension Contribution: £" + pensionContributionValue + " Weekly";
   //Convert Student Loan
+  studentLoanValue = studentLoan / 52;
+  studentLoanValue = studentLoanValue.toFixed(0);
+  studentLoanElement.textContent =
+    "Student Loan: £" + studentLoanValue + " Weekly";
 }
 
 //Converts all values into months
@@ -290,7 +302,15 @@ function convertMonth() {
   incomeTaxValue = incomeTaxValue.toFixed(0);
   incomeTaxElement.textContent = "Income Tax: £" + incomeTaxValue + " Monthly";
   //Convert Pension Contribution
+  pensionContributionValue = pensionContribution / 12;
+  pensionContributionValue = pensionContributionValue.toFixed(0);
+  pensionContributionElement.textContent =
+    "Pension Contribution: £" + pensionContributionValue + " Monthly";
   //Convert Student Loan
+  studentLoanValue = studentLoan / 12;
+  studentLoanValue = studentLoanValue.toFixed(0);
+  studentLoanElement.textContent =
+    "Student Loan: £" + studentLoanValue + " Monthly";
 }
 
 function convertAnnually() {
@@ -306,8 +326,11 @@ function convertAnnually() {
   //Convert Income Tax
   incomeTaxElement.textContent = "Income Tax: £" + incomeTax + " Annually";
   //Convert Pension Contribution
-
+  pensionContributionElement.textContent =
+    "Pension Contribution: £" + pensionContribution + " Annually";
   //Convert Student Loan
+  studentLoanElement.textContent =
+    "Student Loan: £" + studentLoan + " Annually";
 }
 
 //Toggles between weekly, monthly, or yearly
@@ -376,7 +399,7 @@ new Chart(document.getElementById("pie-chart"), {
       "Income Tax",
       "National Insurance",
       "Take Home Pay",
-      "Cost of Living",
+      "Pension Contribution",
       "Student Loan",
     ],
     datasets: [
@@ -388,7 +411,7 @@ new Chart(document.getElementById("pie-chart"), {
           "#EEF1FF",
           "#E3D3F0",
         ],
-        data: [50, 50, 50, 50, 50],
+        data: [incomeTax, nationalInsurance, takeHomePay, pensionContribution, studentLoan],
       },
     ],
   },
