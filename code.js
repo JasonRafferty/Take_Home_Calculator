@@ -11,6 +11,8 @@ let takeHomePay = document.getElementById("takeHomePayHTML");
 let accordions = document.querySelectorAll("button.accordion");
 
 //Intialise values
+let inputSalary;
+let inputSalaryInitial;
 let nationalInsurance = 0;
 let incomeTax = 0;
 let pensionContribution = 0;
@@ -121,7 +123,8 @@ inputSalaryElement.addEventListener("keypress", function (event) {
 
 //Calculates the output of given salary
 function calculate() {
-  let inputSalary = parseFloat(inputSalaryElement.value);
+  inputSalary = parseFloat(inputSalaryElement.value);
+  inputSalaryInitial = inputSalary;
   if (!isNaN(inputSalary)) {
     if (toggleCheckbox.checked) {
       // Pension Contribution
@@ -175,6 +178,7 @@ function calculate() {
       pensionContribution,
       studentLoan
     );
+    errorHandling();
   } else {
     takeHomePay.textContent = "_________";
     takeHomePayValue = 0;
@@ -516,8 +520,26 @@ var myPieChart = new Chart(document.getElementById("pie-chart"), {
   },
 });
 
+//Error Handling
+// This code sums up all the components to check if they are equal to the entered salary.
+function errorHandling() {
+  let totalDeductions =
+    Number(incomeTax) +
+    Number(nationalInsurance) +
+    Number(pensionContribution) +
+    Number(studentLoan) +
+    Number(takeHomePayValue);
+  console.log(inputSalaryInitial);
+  console.log("total deductions:", totalDeductions);
+  if (inputSalaryInitial === totalDeductions) {
+    console.log("Calculation is correct");
+  } else {
+    console.log("There's an error in the calculation");
+  }
+}
+
 //ToDo
-//1. add error handling where income tax + nation insurea + take home pay etc = intital salary, if not it displayers erro
 //2. add mobile phone supprot
 //4. make contents in more info Bold
 //7. Make chart bigger
+//8. Add pounds to enter salary and % to pension input
