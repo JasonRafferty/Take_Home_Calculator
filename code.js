@@ -21,6 +21,7 @@ let monthSalary;
 let studentLoanInput;
 let takeHomePayValue = 0;
 
+document.getElementById("pie-chart").style.display = "none";
 
 //Clear what has been put
 document.getElementById("clearButtonHTML").addEventListener("click", clear);
@@ -43,8 +44,9 @@ function clear() {
   incomeTax = 0;
   studentLoan = 0;
   pensionContribution = 0;
+  takeHomePayValue = 0;
   //Reset Chart
-  updateChartData(myPieChart, 100, 100, 100, 100, 100);
+  updateChartData(myPieChart, 1, 1, 1, 1, 1);
 }
 
 //Check input salary is positive and a value
@@ -110,6 +112,13 @@ inputPensionHTML.addEventListener("input", function () {
   calculate();
 });
 
+//When enter is pressed, it will calculate
+inputSalaryElement.addEventListener("keypress", function (event) {
+  if (event.key === "Enter") {
+    calculate();
+  }
+});
+
 //Calculates the output of given salary
 function calculate() {
   let inputSalary = parseFloat(inputSalaryElement.value);
@@ -169,7 +178,7 @@ function calculate() {
   } else {
     takeHomePay.textContent = "_________";
     takeHomePayValue = 0;
-    updateChartData(myPieChart, 100, 100, 100, 100, 100);
+    updateChartData(myPieChart, 1, 1, 1, 1, 1);
   }
 }
 
@@ -181,14 +190,22 @@ function updateChartData(
   pensionContribution,
   studentLoan
 ) {
-  chart.data.datasets[0].data = [
+  var dataValues = [
     incomeTax,
     nationalInsurance,
     takeHomePayValue,
     pensionContribution,
     studentLoan,
   ];
-  chart.update(); // This will re-render the chart with new data
+  chart.data.datasets[0].data = dataValues;
+
+  // Hide or show the chart based on data sum
+  if (dataValues.every((value) => value === 0)) {
+    document.getElementById("pie-chart").style.display = "none";
+  } else {
+    document.getElementById("pie-chart").style.display = "block";
+  }
+  chart.update();
 }
 
 //Calculetes National Insurance Number
@@ -318,6 +335,15 @@ function convertWeek() {
   studentLoanValue = studentLoanValue.toFixed(0);
   studentLoanElement.textContent =
     "Student Loan: £" + studentLoanValue + " Weekly";
+  //Update the Pie Chart
+  updateChartData(
+    myPieChart,
+    incomeTaxValue,
+    nationalInsuranceValue,
+    weekSalaryValue,
+    pensionContributionValue,
+    studentLoanValue
+  );
 }
 
 //Converts all values into months
@@ -350,6 +376,15 @@ function convertMonth() {
   studentLoanValue = studentLoanValue.toFixed(0);
   studentLoanElement.textContent =
     "Student Loan: £" + studentLoanValue + " Monthly";
+  //Update the Pie Chart
+  updateChartData(
+    myPieChart,
+    incomeTaxValue,
+    nationalInsuranceValue,
+    monthSalaryValue,
+    pensionContributionValue,
+    studentLoanValue
+  );
 }
 
 function convertAnnually() {
@@ -376,27 +411,30 @@ function convertAnnually() {
 document.addEventListener("DOMContentLoaded", function () {
   // Get all time buttons
   const timeButtons = document.querySelectorAll(".timeButton");
-
   // Add click event to each button
   timeButtons.forEach(function (button) {
     button.addEventListener("click", function (e) {
-      // Remove active class from all buttons
-      timeButtons.forEach((btn) => btn.classList.remove("active"));
+      // Get the value from inputSalaryElement
+      let inputSalary = document.getElementById("inputSalaryHTML").value;
 
-      // Add active class to clicked button
-      e.currentTarget.classList.add("active");
-
-      // Call the corresponding function
-      switch (e.currentTarget.textContent.trim()) {
-        case "Weekly":
-          convertWeek();
-          break;
-        case "Monthly":
-          convertMonth();
-          break;
-        case "Annually":
-          convertAnnually();
-          break;
+      // Check if inputSalary has a value and is not just whitespace
+      if (inputSalary.trim() !== "") {
+        // Remove active class from all buttons
+        timeButtons.forEach((btn) => btn.classList.remove("active"));
+        // Add active class to clicked button
+        e.currentTarget.classList.add("active");
+        // Call the corresponding function based on the button text
+        switch (e.currentTarget.textContent.trim()) {
+          case "Weekly":
+            convertWeek();
+            break;
+          case "Monthly":
+            convertMonth();
+            break;
+          case "Annually":
+            convertAnnually();
+            break;
+        }
       }
     });
   });
@@ -450,7 +488,7 @@ var myPieChart = new Chart(document.getElementById("pie-chart"), {
           "#D2DAFF",
           "#EEF1FF",
         ],
-        data: [100, 100, 100, 100, 100], // Set all values to 0
+        data: [0, 0, 0, 0, 0], // Set all values to 0
       },
     ],
   },
@@ -478,11 +516,8 @@ var myPieChart = new Chart(document.getElementById("pie-chart"), {
   },
 });
 
-
-
 //ToDo
-//Make piechart work when you frirst load page
-// Make piechart smaller? Maybe put it in a container in html and make container smaller?
-//20. add error handling where income tax + nation insurea + take home pay etc = intital salary, if not it displayers erro
-//23. add mobile phone supprot
-// when selecting monthly weekly, it shuldnt say NA
+//1. add error handling where income tax + nation insurea + take home pay etc = intital salary, if not it displayers erro
+//2. add mobile phone supprot
+//4. make contents in more info Bold
+//7. Make chart bigger
