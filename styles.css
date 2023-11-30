@@ -250,6 +250,27 @@ div.panel.show {
   margin: 10px 0 4px;
 }
 
+div.panel2 {
+  background-color: rgba(159, 124, 189, 0.4);
+  backdrop-filter: blur(20px);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  overflow: hidden;
+  opacity: 0;
+  max-height: 0;
+  transition: 0.3s;
+  padding: 0 8px;
+  margin-bottom: -10pt;
+}
+
+div.panel2.show {
+  opacity: 1;
+  max-height: 500px;
+  padding: 8px;
+  margin: 10px 0 4px;
+}
+
 .container2 {
   background-color: #fff;
   border-radius: 10px;
@@ -454,3 +475,4 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+

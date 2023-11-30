@@ -21,6 +21,7 @@ let monthSalary;
 let studentLoanInput;
 let takeHomePayValue = 0;
 
+
 //Clear what has been put
 document.getElementById("clearButtonHTML").addEventListener("click", clear);
 function clear() {
@@ -79,7 +80,6 @@ toggleCheckbox.addEventListener("change", function () {
   ) {
     // If it is, uncheck the toggle and return early without calculating
     toggleCheckbox.checked = false;
-    alert("Please enter a value");
     return;
   }
 
@@ -468,13 +468,14 @@ var myPieChart = new Chart(document.getElementById("pie-chart"), {
     responsive: true,
     plugins: {
       legend: {
-        display: false,
+        display: true,
       },
     },
   },
 });
 
 //ToDo
-//17. student loan, if nothing is toggle, it will be 0 !!
+//Make piechart work when you frirst load page
+// Make piechart smaller? Maybe put it in a container in html and make container smaller?
 //20. add error handling where income tax + nation insurea + take home pay etc = intital salary, if not it displayers erro
 //23. add mobile phone supprot
