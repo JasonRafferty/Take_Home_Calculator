@@ -76,20 +76,27 @@
           <div class="toggle-switch"></div>
         </label>
       </div>
-
       <button class="accordion">More Info</button>
       <div class="panel">
-        <p id="incomeTaxHTML">Income Tax:</p>
-        <p id="nationalInsuranceHTML">National Insurance:</p>
-        <p id="studentLoanHTML">Student Loan:</p>
-        <p id="pensionContributionHTML">Pension Contribution:</p>
-      </div>
-      <button class="accordion">Pie Chart</button>
-      <div class="panel2">
-        <div id="pieChartFade">
-          <canvas id="pie-chart"></canvas> 
+        <div class="key-item">
+          <div class="key-color" style="background-color: #E3D3F0;"></div>
+          <p id="incomeTaxHTML">Income Tax:</p>
         </div>
-      </div>
+        <div class="key-item">
+          <div class="key-color" style="background-color: #AAC4FF;"></div>
+          <p id="nationalInsuranceHTML">National Insurance:</p>
+        </div>
+        <div class="key-item">
+          <div class="key-color" style="background-color: #D2DAFF;"></div>
+          <p id="pensionContributionHTML">Pension Contribution:</p>
+        </div>
+        <div class="key-item">
+          <div class="key-color" style="background-color: #EEF1FF;"></div>
+          <p id="studentLoanHTML">Student Loan:</p>
+        </div>
+        <div id="pieChartFade">
+          <canvas id="pie-chart" class="pie-chart"></canvas> 
+        </div>
       </div>
     </div>
     <script src="chart.min.js"></script>

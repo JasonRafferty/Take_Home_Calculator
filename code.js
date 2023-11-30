@@ -450,13 +450,7 @@ var myPieChart = new Chart(document.getElementById("pie-chart"), {
           "#D2DAFF",
           "#EEF1FF",
         ],
-        data: [
-          incomeTax,
-          nationalInsurance,
-          takeHomePayValue,
-          pensionContribution,
-          studentLoan,
-        ],
+        data: [100, 100, 100, 100, 100], // Set all values to 0
       },
     ],
   },
@@ -466,16 +460,29 @@ var myPieChart = new Chart(document.getElementById("pie-chart"), {
       text: "Pie Chart",
     },
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: true,
+        display: false,
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            var label = context.label || "";
+            var value = context.parsed || 0;
+            return label + ": £" + value;
+          },
+        },
       },
     },
   },
 });
+
+
 
 //ToDo
 //Make piechart work when you frirst load page
 // Make piechart smaller? Maybe put it in a container in html and make container smaller?
 //20. add error handling where income tax + nation insurea + take home pay etc = intital salary, if not it displayers erro
 //23. add mobile phone supprot
+// when selecting monthly weekly, it shuldnt say NA
