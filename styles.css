@@ -34,13 +34,13 @@ h1 {
 .inputSalary {
   width: 100%;
   height: 100%;
-  font-size: 15pt;
+  font-size: 18pt;
   background: transparent;
   border-radius: 8px;
   outline: none;
   border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: 40px;
-  padding: 7px;
+  padding: 3px;
   color: white;
   margin-top: 20pt;
   text-align: center;
@@ -244,7 +244,7 @@ div.panel {
   max-height: 0;
   transition: 0.3s;
   padding: 0 8px;
-  margin-bottom: -10pt;
+  margin-bottom: -7pt;
 }
 
 div.panel.show {
@@ -468,5 +468,3 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-top: 15px;
   margin-bottom: 14px;
 }
-
-

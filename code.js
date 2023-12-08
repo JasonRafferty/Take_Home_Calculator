@@ -22,6 +22,7 @@ let weekSalary;
 let monthSalary;
 let studentLoanInput;
 let takeHomePayValue = 0;
+let unformattedSalary = 0;
 
 document.getElementById("pie-chart").style.display = "none";
 
@@ -53,13 +54,25 @@ function clear() {
 
 //Check input salary is positive and a value
 function checkSalaryInput(input) {
-  let value = parseFloat(input.value);
-  if (isNaN(value)) {
-    input.value = "";
-  } else {
-    if (value < 0) input.value = 0;
-  }
+    let value = input.value;
+    let numericValue = '';
+    // Extract and store numeric value
+    for (let i = 0; i < value.length; i++) {
+        if ((value[i] >= '0' && value[i] <= '9') || value[i] === '.') {
+            numericValue += value[i];
+        }
+    }
+    numericValue = parseFloat(numericValue);
+    if (!isNaN(numericValue)) {
+        unformattedSalary = numericValue; 
+        // Update the global variable
+        input.value = '£' + numericValue.toLocaleString('en-GB');
+    } else {
+        input.value = '';
+        unformattedSalary = 0;
+    }
 }
+
 
 //Check input pension % is inbetween 0 and 100
 function checkPensionInput(input) {
@@ -123,7 +136,7 @@ inputSalaryElement.addEventListener("keypress", function (event) {
 
 //Calculates the output of given salary
 function calculate() {
-  inputSalary = parseFloat(inputSalaryElement.value);
+  inputSalary = unformattedSalary;
   inputSalaryInitial = inputSalary;
   if (!isNaN(inputSalary)) {
     if (toggleCheckbox.checked) {
@@ -178,6 +191,7 @@ function calculate() {
       pensionContribution,
       studentLoan
     );
+    //Checks that all components sum up to the input salary
     errorHandling();
   } else {
     takeHomePay.textContent = "_________";
@@ -224,14 +238,14 @@ function nationalInsuranceCalculate(inputSalary) {
     nationalInsurance = nationalInsurance * 0.12;
     nationalInsurance = nationalInsurance.toFixed(0);
     nationalInsuranceElement.textContent =
-      "National Insurance: £" + nationalInsurance + " Annually";
+      "National Insurance: £" + nationalInsurance;
     //2% over 50270
   } else {
     nationalInsurance = 50270 - 9880;
     nationalInsurance = nationalInsurance * 0.12 + (inputSalary - 50270) * 0.02;
     nationalInsurance = nationalInsurance.toFixed(0);
     nationalInsuranceElement.textContent =
-      "National Insurance: £" + nationalInsurance + " Annually";
+      "National Insurance: £" + nationalInsurance;
   }
 }
 
@@ -246,13 +260,13 @@ function incomeTaxCalculate(inputSalary) {
     incomeTax = inputSalary - 12570;
     incomeTax = incomeTax * 0.2;
     incomeTax = incomeTax.toFixed(0);
-    incomeTaxElement.textContent = "Income Tax: £" + incomeTax + " Annually";
+    incomeTaxElement.textContent = "Income Tax: £" + incomeTax;
     //40% between 50271 and 125140
   } else if (inputSalary <= 125140) {
     incomeTax = 50270 - 12570;
     incomeTax = incomeTax * 0.4 + (inputSalary - 50270) * 0.2;
     incomeTax = incomeTax.toFixed(0);
-    incomeTaxElement.textContent = "Income Tax: £" + incomeTax + " Annually";
+    incomeTaxElement.textContent = "Income Tax: £" + incomeTax;
     // 45% over 125140
   } else {
     incomeTax =
@@ -260,7 +274,7 @@ function incomeTaxCalculate(inputSalary) {
       (125140 - 50270) * 0.4 +
       (inputSalary - 125140) * 0.45;
     incomeTax = incomeTax.toFixed(0);
-    incomeTaxElement.textContent = "Income Tax: £" + incomeTax + " Annually";
+    incomeTaxElement.textContent = "Income Tax: £" + incomeTax;
   }
 }
 
@@ -324,21 +338,21 @@ function convertWeek() {
   nationalInsuranceValue = nationalInsurance / 52;
   nationalInsuranceValue = nationalInsuranceValue.toFixed(0);
   nationalInsuranceElement.textContent =
-    "National Insurance: £" + nationalInsuranceValue + " Weekly";
+    "National Insurance: £" + nationalInsuranceValue;
   //Convert Income Tax
   incomeTaxValue = incomeTax / 52;
   incomeTaxValue = incomeTaxValue.toFixed(0);
-  incomeTaxElement.textContent = "Income Tax: £" + incomeTaxValue + " Weekly";
+  incomeTaxElement.textContent = "Income Tax: £" + incomeTaxValue;
   //Convert Pension Contribution
   pensionContributionValue = pensionContribution / 52;
   pensionContributionValue = pensionContributionValue.toFixed(0);
   pensionContributionElement.textContent =
-    "Pension Contribution: £" + pensionContributionValue + " Weekly";
+    "Pension Contribution: £" + pensionContributionValue;
   //Convert Student Loan
   studentLoanValue = studentLoan / 52;
   studentLoanValue = studentLoanValue.toFixed(0);
   studentLoanElement.textContent =
-    "Student Loan: £" + studentLoanValue + " Weekly";
+    "Student Loan: £" + studentLoanValue;
   //Update the Pie Chart
   updateChartData(
     myPieChart,
@@ -365,21 +379,20 @@ function convertMonth() {
   nationalInsuranceValue = nationalInsurance / 12;
   nationalInsuranceValue = nationalInsuranceValue.toFixed(0);
   nationalInsuranceElement.textContent =
-    "National Insurance: £" + nationalInsuranceValue + "  Monthly";
+    "National Insurance: £" + nationalInsuranceValue;
   //Convert Income Tax
   incomeTaxValue = incomeTax / 12;
   incomeTaxValue = incomeTaxValue.toFixed(0);
-  incomeTaxElement.textContent = "Income Tax: £" + incomeTaxValue + " Monthly";
-  //Convert Pension Contribution
+  incomeTaxElement.textContent = "Income Tax: £" + incomeTaxValue 
   pensionContributionValue = pensionContribution / 12;
   pensionContributionValue = pensionContributionValue.toFixed(0);
   pensionContributionElement.textContent =
-    "Pension Contribution: £" + pensionContributionValue + " Monthly";
+    "Pension Contribution: £" + pensionContributionValue;
   //Convert Student Loan
   studentLoanValue = studentLoan / 12;
   studentLoanValue = studentLoanValue.toFixed(0);
   studentLoanElement.textContent =
-    "Student Loan: £" + studentLoanValue + " Monthly";
+    "Student Loan: £" + studentLoanValue;
   //Update the Pie Chart
   updateChartData(
     myPieChart,
@@ -400,15 +413,15 @@ function convertAnnually() {
   takeHomePay.textContent = formattedSalary;
   //Convert National Insurance Number
   nationalInsuranceElement.textContent =
-    "National Insurance: £" + nationalInsurance + " Annually";
+    "National Insurance: £" + nationalInsurance;
   //Convert Income Tax
-  incomeTaxElement.textContent = "Income Tax: £" + incomeTax + " Annually";
+  incomeTaxElement.textContent = "Income Tax: £" + incomeTax;
   //Convert Pension Contribution
   pensionContributionElement.textContent =
-    "Pension Contribution: £" + pensionContribution + " Annually";
+    "Pension Contribution: £" + pensionContribution;
   //Convert Student Loan
   studentLoanElement.textContent =
-    "Student Loan: £" + studentLoan + " Annually";
+    "Student Loan: £" + studentLoan;
 }
 
 //Toggles between weekly, monthly, or yearly
@@ -529,8 +542,6 @@ function errorHandling() {
     Number(pensionContribution) +
     Number(studentLoan) +
     Number(takeHomePayValue);
-  console.log(inputSalaryInitial);
-  console.log("total deductions:", totalDeductions);
   if (inputSalaryInitial === totalDeductions) {
     console.log("Calculation is correct");
   } else {
@@ -543,3 +554,5 @@ function errorHandling() {
 //4. make contents in more info Bold
 //7. Make chart bigger
 //8. Add pounds to enter salary and % to pension input
+
+
