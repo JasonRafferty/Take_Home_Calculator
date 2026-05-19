@@ -8,7 +8,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-image: url("background.jpg");
+  background-image: url("../assests/background.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -142,7 +142,9 @@ button.studentLoanButton:hover {
   white-space: nowrap;
   font-size: 14px;
   z-index: 1;
-  transition: opacity 0.4s ease, visibility 0.4s ease-in-out;
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s ease-in-out;
 }
 
 .studentLoanButton:hover .tooltip {
